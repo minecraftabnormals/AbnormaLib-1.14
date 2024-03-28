@@ -15,35 +15,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package io.github.vampirestudios.vampirelib.modules.api;
+package io.github.vampirestudios.vampirelib;
 
-import net.minecraft.resources.ResourceLocation;
+import com.google.common.base.Preconditions;
+import net.minecraft.world.flag.FeatureFlagRegistry;
+import net.minecraft.world.flag.FeatureFlags;
 
-public abstract class Feature {
+public class VFeatureFlags {
 
-	private final ResourceLocation registryName;
-	private final String name;
-	private boolean enabled = true;
-
-	public Feature(ResourceLocation registryName, String name) {
-		this.registryName = registryName;
-		this.name = name;
+	private VFeatureFlags() {
+		throw new UnsupportedOperationException("FrozenFeatureFlags contains only static declarations.");
 	}
 
-	public final boolean isEnabled() {
-		return enabled;
-	}
+	public static FeatureFlagRegistry.Builder builder;
 
-	public final void setEnabled(boolean enabled) {
-		this.enabled = enabled;
+	public static void rebuild() {
+		Preconditions.checkArgument(builder != null, new NullPointerException("Feature flags rebuilt before builder exists"));
+		FeatureFlags.REGISTRY = builder.build();
+		FeatureFlags.CODEC = FeatureFlags.REGISTRY.codec();
 	}
-
-	public ResourceLocation getRegistryName() {
-		return registryName;
-	}
-
-	public String getName() {
-		return name;
-	}
-
 }

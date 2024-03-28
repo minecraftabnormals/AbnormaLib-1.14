@@ -19,25 +19,20 @@ package io.github.vampirestudios.vampirelib.mixins;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.BaseSpawner;
+import net.minecraft.world.flag.FeatureFlagRegistry;
+import net.minecraft.world.flag.FeatureFlags;
 
-import io.github.vampirestudios.vampirelib.utils.EntitySpawnImpl;
+import io.github.vampirestudios.vampirelib.VFeatureFlags;
 
-/**
- * @author Valoeghese
- */
-@Mixin(BaseSpawner.class)
-public class MixinMobSpawnerLogic {
-	@Redirect(
-			at = @At(value = "INVOKE",
-					 target = "Lnet/minecraft/server/level/ServerLevel;tryAddFreshEntityWithPassengers(Lnet/minecraft/world/entity/Entity;)Z"),
-			method = "serverTick"
-	)
-	private boolean entitySpawnEventSpawner(ServerLevel self, Entity entity) {
-		return EntitySpawnImpl.spawnEntityZ(self, entity);
+@Mixin(FeatureFlags.class)
+public class FeatureFlagsMixin {
+
+	@Inject(method = "<clinit>", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/flag/FeatureFlagRegistry$Builder;createVanilla(Ljava/lang/String;)Lnet/minecraft/world/flag/FeatureFlag;", ordinal = 0), locals = LocalCapture.CAPTURE_FAILHARD)
+	private static void save(CallbackInfo ci, FeatureFlagRegistry.Builder builder) {
+		VFeatureFlags.builder = builder;
 	}
 }

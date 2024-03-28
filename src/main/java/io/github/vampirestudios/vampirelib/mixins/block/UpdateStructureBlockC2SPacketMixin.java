@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022-2023 OliviaTheVampire
+ * Copyright (c) 2023 OliviaTheVampire
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -28,7 +28,7 @@ public abstract class UpdateStructureBlockC2SPacketMixin {
 
 	@ModifyConstant(method = "<init>(Lnet/minecraft/network/FriendlyByteBuf;)V", constant = @Constant(intValue = 48))
 	public int readNbt(int old) {
-		return 2048;
+		return 4096;
 	}
 
 }

@@ -85,6 +85,7 @@ transitive-mutable field net/minecraft/client/model/geom/builders/PartDefinition
 transitive-accessible field net/minecraft/client/model/geom/ModelPart children Ljava/util/Map;
 transitive-accessible field net/minecraft/client/model/geom/EntityModelSet roots Ljava/util/Map;
 transitive-accessible field net/minecraft/client/model/geom/builders/MeshDefinition root Lnet/minecraft/client/model/geom/builders/PartDefinition;
+transitive-mutable field net/minecraft/client/model/geom/builders/MeshDefinition root Lnet/minecraft/client/model/geom/builders/PartDefinition;
 
 transitive-accessible method net/minecraft/client/model/geom/builders/CubeDefinition <init> (Ljava/lang/String;FFFFFFFFLnet/minecraft/client/model/geom/builders/CubeDeformation;ZFFLjava/util/Set;)V
 transitive-accessible field net/minecraft/client/model/geom/builders/CubeDefinition origin Lorg/joml/Vector3f;
@@ -152,7 +153,5 @@ accessible field net/minecraft/data/loot/BlockLootSubProvider map Ljava/util/Map
 
 accessible method net/minecraft/world/level/block/state/properties/WoodType register (Lnet/minecraft/world/level/block/state/properties/WoodType;)Lnet/minecraft/world/level/block/state/properties/WoodType;
 
-# Ore Veins
-accessible    class    net/minecraft/world/level/levelgen/OreVeinifier$VeinType
-
-accessible class net/minecraft/server/packs/FilePackResources
+transitive-mutable field net/minecraft/world/flag/FeatureFlags REGISTRY Lnet/minecraft/world/flag/FeatureFlagRegistry;
+transitive-mutable field net/minecraft/world/flag/FeatureFlags CODEC Lcom/mojang/serialization/Codec;

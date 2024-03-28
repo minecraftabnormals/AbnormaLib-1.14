@@ -27,14 +27,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
-import org.joml.Vector3d;
-
-import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.models.BlockModelGenerators;
 import net.minecraft.data.models.ItemModelGenerators;
-import net.minecraft.data.models.blockstates.VariantProperties;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
@@ -48,11 +44,6 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 
 import io.github.vampirestudios.vampirelib.api.datagen.CustomTagProviders;
-import io.github.vampirestudios.vampirelib.api.datagen.DisplayBuilder;
-import io.github.vampirestudios.vampirelib.api.datagen.ElementBuilder;
-import io.github.vampirestudios.vampirelib.api.datagen.FaceBuilder;
-import io.github.vampirestudios.vampirelib.api.datagen.RotationBuilder;
-import io.github.vampirestudios.vampirelib.api.datagen.builder.BlockModelBuilder;
 import io.github.vampirestudios.vampirelib.utils.registry.WoodRegistry;
 
 public class VampireLibDataGen implements DataGeneratorEntrypoint {
@@ -120,34 +111,6 @@ public class VampireLibDataGen implements DataGeneratorEntrypoint {
 			generateWoodTypeAssets(blockStateModelGenerator, VampireLib.TEST_NETHER_WOOD11);
 			generateWoodTypeAssets(blockStateModelGenerator, VampireLib.TEST_NETHER_WOOD12);
 			generateWoodTypeAssets(blockStateModelGenerator, VampireLib.TEST_NETHER_WOOD13);
-
-			// TODO: needs more simplification
-			BlockModelBuilder customModel = BlockModelBuilder.createNew(VampireLib.INSTANCE.identifier("custom"))
-					.addTexture("texture1", VampireLib.INSTANCE.identifier("block_with_custom_model_1_1"))
-					.addTexture("texture2", VampireLib.INSTANCE.identifier("block_with_custom_model_1_2"))
-					.addDisplay(DisplayBuilder.Position.FIXED, new DisplayBuilder()
-							.rotate(45, 45, 45)
-							.scale(2))
-					.addElement(new ElementBuilder(new Vector3d(1.2), new Vector3d(14.8))
-							.addFace(Direction.NORTH, new FaceBuilder("texture1")
-									.withUv(4, 6, 15, 3)
-									.withRotation(VariantProperties.Rotation.R90)
-									.withCulling(Direction.NORTH)
-									.withTintIndex(3))
-							.withRotation(new RotationBuilder(1, 2, 3, Direction.Axis.X, RotationBuilder.Angle.PLUS22_5)
-									.rescale(true))
-							.withShading(false))
-					.occludes(false);
-			blockStateModelGenerator.buildWithSingletonState(VampireLib.BLOCK_WITH_CUSTOM_MODEL_1, customModel);
-
-			customModel.clearDisplays().clearElements()
-					.addTexture("texture1", VampireLib.INSTANCE.identifier("block_with_custom_model_2_1"))
-					.addTexture("texture2", VampireLib.INSTANCE.identifier("block_with_custom_model_2_2"))
-					.addTexture("texture3", VampireLib.INSTANCE.identifier("block_with_custom_model_2_3"))
-					.occludes(true);
-			blockStateModelGenerator.buildWithSingletonState(VampireLib.BLOCK_WITH_CUSTOM_MODEL_2, customModel);
-
-			blockStateModelGenerator.registerEmptyModel(VampireLib.BLOCK_WITH_EMPTY_MODEL);
 		}
 
 		@Override

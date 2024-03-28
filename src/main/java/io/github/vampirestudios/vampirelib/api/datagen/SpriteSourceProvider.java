@@ -23,13 +23,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
-import com.mojang.serialization.JsonOps;
-
 import net.minecraft.client.renderer.texture.atlas.SpriteSource;
 import net.minecraft.client.renderer.texture.atlas.SpriteSources;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.PackType;
 
 public abstract class SpriteSourceProvider extends JsonCodecProvider<List<SpriteSource>> {
 	protected static final ResourceLocation BLOCKS_ATLAS = new ResourceLocation("blocks");
@@ -45,14 +42,19 @@ public abstract class SpriteSourceProvider extends JsonCodecProvider<List<Sprite
 
 	private final Map<ResourceLocation, SourceList> atlases = new HashMap<>();
 
-	public SpriteSourceProvider(PackOutput output, ExistingFileHelper fileHelper, String modid) {
-		super(output, fileHelper, modid, JsonOps.INSTANCE, PackType.CLIENT_RESOURCES, "atlases", SpriteSources.FILE_CODEC, Map.of());
+	public SpriteSourceProvider(PackOutput output) {
+		super(output, PackOutput.Target.RESOURCE_PACK, "atlases", SpriteSources.FILE_CODEC);
 	}
 
 	@Override
-	protected final void gather(BiConsumer<ResourceLocation, List<SpriteSource>> consumer) {
+	public String getName() {
+		return "Sprite Source Provider";
+	}
+
+	@Override
+	protected void configure(BiConsumer<ResourceLocation, List<SpriteSource>> provider) {
 		addSources();
-		atlases.forEach((atlas, srcList) -> consumer.accept(atlas, srcList.sources));
+		atlases.forEach((atlas, srcList) -> provider.accept(atlas, srcList.sources));
 	}
 
 	protected abstract void addSources();

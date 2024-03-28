@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022-2023 OliviaTheVampire
+ * Copyright (c) 2023 OliviaTheVampire
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -70,6 +70,24 @@ public class BlockChiseler {
 		}
 	}
 
+	public static void create(ResourceLocation identifier, TagKey<Item> toolTag, ChiselEntry chiselEntry) {
+		chiselRegistry.put(identifier, chiselEntry);
+		if (toolTagsToEntries.containsKey(toolTag)) {
+			toolTagsToEntries.get(toolTag).add(chiselEntry);
+		} else {
+			toolTagsToEntries.put(toolTag, new HashSet<>(Collections.singleton(chiselEntry)));
+		}
+	}
+
+	public static void create(ResourceLocation identifier, Item item, ChiselEntry chiselEntry) {
+		chiselRegistry.put(identifier, chiselEntry);
+		if (itemsToEntries.containsKey(item)) {
+			itemsToEntries.get(item).add(chiselEntry);
+		} else {
+			itemsToEntries.put(item, new HashSet<>(Collections.singleton(chiselEntry)));
+		}
+	}
+
 	public static void add(ResourceLocation identifier, Collection<Block> carvedBlocks) {
 		if (chiselRegistry.containsKey(identifier)) {
 			chiselRegistry.get(identifier).chiselDeque.addAll(carvedBlocks);
@@ -131,7 +149,7 @@ public class BlockChiseler {
 		return to;
 	}
 
-	static class ChiselEntry {
+	public static class ChiselEntry {
 		Deque<Block> chiselDeque;
 
 		ChiselEntry(Collection<Block> blocks) {

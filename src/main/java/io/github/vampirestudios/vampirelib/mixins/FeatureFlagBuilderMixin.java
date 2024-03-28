@@ -15,35 +15,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package io.github.vampirestudios.vampirelib.modules.api;
+package io.github.vampirestudios.vampirelib.mixins;
 
-import net.minecraft.resources.ResourceLocation;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
 
-public abstract class Feature {
+import net.minecraft.world.flag.FeatureFlagRegistry;
 
-	private final ResourceLocation registryName;
-	private final String name;
-	private boolean enabled = true;
+@Mixin(value = FeatureFlagRegistry.Builder.class, priority = 1001)
+public class FeatureFlagBuilderMixin {
 
-	public Feature(ResourceLocation registryName, String name) {
-		this.registryName = registryName;
-		this.name = name;
+	@ModifyExpressionValue(
+		method = "create",
+		at = @At(
+			value = "CONSTANT",
+			args = {
+				"intValue=64"
+			}
+		)
+	)
+	private int increaseMax(int constant) {
+		return Math.max(constant, 1024);
 	}
-
-	public final boolean isEnabled() {
-		return enabled;
-	}
-
-	public final void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
-
-	public ResourceLocation getRegistryName() {
-		return registryName;
-	}
-
-	public String getName() {
-		return name;
-	}
-
 }

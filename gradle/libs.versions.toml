@@ -1,10 +1,10 @@
 [versions]
-    minecraft = '23w45a'
-    quilt_mappings = "23w44a+build.3"
-    fabric-loader = "0.14.24"
-    parchment = "2023.09.03"
+    minecraft = '1.20.4'
+    quilt_mappings = "1.20.4+build.3"
+    fabric-loader = "0.15.7"
+    parchment = "2023.12.31"
 
-    fabric = "0.90.8+1.20.3"
+    fabric = "0.96.11+1.20.4"
 
     terraformwoodapi = '8.0.0'
 

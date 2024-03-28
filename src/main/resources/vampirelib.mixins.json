@@ -5,6 +5,8 @@
 	"mixins": [
 		"BlockStateModelGeneratorMixin",
 		"DynamicRegistrySyncMixin",
+		"FeatureFlagBuilderMixin",
+		"FeatureFlagsMixin",
 		"ItemModelGeneratorMixin",
 		"MixinMobSpawnerLogic",
 		"MixinSpawnHelper",

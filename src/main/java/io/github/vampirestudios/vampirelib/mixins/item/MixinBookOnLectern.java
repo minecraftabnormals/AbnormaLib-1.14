@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022-2023 OliviaTheVampire
+ * Copyright (c) 2023 OliviaTheVampire
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -31,8 +31,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.LecternBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
-import io.github.vampirestudios.vampirelib.blocks.LecternBaseBlock;
-
 @Mixin({WritableBookItem.class, WrittenBookItem.class})
 public abstract class MixinBookOnLectern {
 
@@ -43,9 +41,6 @@ public abstract class MixinBookOnLectern {
 		BlockState blockState = world.getBlockState(blockPos);
 		if (blockState.getBlock() instanceof LecternBlock) {
 			cir.setReturnValue(LecternBlock.tryPlaceBook(usageContext.getPlayer(), world, blockPos, blockState,
-					usageContext.getItemInHand()) ? InteractionResult.SUCCESS : InteractionResult.PASS);
-		} else if (blockState.getBlock() instanceof LecternBaseBlock) {
-			cir.setReturnValue(LecternBaseBlock.tryPlaceBook(usageContext.getPlayer(), world, blockPos, blockState,
 					usageContext.getItemInHand()) ? InteractionResult.SUCCESS : InteractionResult.PASS);
 		} else {
 			cir.setReturnValue(InteractionResult.PASS);
