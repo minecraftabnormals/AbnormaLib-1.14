@@ -29,3 +29,12 @@
 - Updated to 1.20.1
 - Lots of improvements to datagen stuff and wood related code
 - Removed lots of code that is no longer needed
+
+### 7.0.4+build.1-1.20.6
+
+- Updated to 1.20.6
+- Some new datagen code
+
+### 7.0.5+build.1-1.21
+
+- Updated to 1.21

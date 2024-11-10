@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022-2024 OliviaTheVampire
+ * Copyright (c) 2024 OliviaTheVampire
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -25,10 +25,14 @@ import io.github.vampirestudios.vampirelib.api.BasicModClass;
 
 public class ResourceLocationUtils {
 
-	private static BasicModClass instance;
+	private static String modId;
 
 	public static void setModInstance(BasicModClass instanceIn) {
-		instance = instanceIn;
+		modId = instanceIn.modId();
+	}
+
+	public static void setModId(String modIdIn) {
+		modId = modIdIn;
 	}
 
 	public enum IdType {
@@ -48,7 +52,8 @@ public class ResourceLocationUtils {
 		PARTICLE_JSON,
 		BLOCKSTATES,
 		LANG,
-		MUSIC
+		MUSIC,
+		WOOD_TYPES
 	}
 
 	public static ResourceLocation vanillaSpecialId(IdType idType, String path) {
@@ -84,15 +89,15 @@ public class ResourceLocationUtils {
 	}
 
 	public static ResourceLocation modId(String path) {
-		return id(instance.modId(), path);
+		return id(modId, path);
 	}
 
 	public static ResourceLocation vanillaId(String path) {
-		return id("minecraft", path);
+		return ResourceLocation.withDefaultNamespace(path);
 	}
 
 	public static ResourceLocation id(String namespace, String path) {
-		return new ResourceLocation(namespace, path);
+		return ResourceLocation.fromNamespaceAndPath(namespace, path);
 	}
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022-2024 OliviaTheVampire
+ * Copyright (c) 2024 OliviaTheVampire
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -37,15 +37,15 @@ public class Utils {
 	}
 
 	public static ResourceLocation appendToPath(ResourceLocation identifier, String suffix) {
-		return new ResourceLocation(identifier.getNamespace(), identifier.getPath() + suffix);
+		return identifier.withSuffix(suffix);
 	}
 
 	public static ResourceLocation prependToPath(ResourceLocation identifier, String prefix) {
-		return new ResourceLocation(identifier.getNamespace(), prefix + identifier.getPath());
+		return identifier.withPrefix(prefix);
 	}
 
 	public static ResourceLocation appendAndPrependToPath(ResourceLocation identifier, String prefix, String suffix) {
-		return new ResourceLocation(identifier.getNamespace(), prefix + identifier.getPath() + suffix);
+		return identifier.withPrefix(prefix).withSuffix(suffix);
 	}
 
 	public static double dist(double x1, double y1, double x2, double y2) {

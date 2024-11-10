@@ -24,8 +24,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.entity.npc.Villager;
@@ -51,7 +51,7 @@ public abstract class VillagerEntityMixin extends AbstractVillager {
 	@Inject(method = "finalizeSpawn", at = @At(value = "INVOKE",
 											   target = "Lnet/minecraft/world/entity/npc/Villager;setVillagerData(Lnet/minecraft/world/entity/npc/VillagerData;)V",
 											   ordinal = 1, shift = At.Shift.AFTER))
-	public void onInitialize(ServerLevelAccessor serverLevelAccessor, DifficultyInstance difficultyInstance, MobSpawnType mobSpawnType, SpawnGroupData spawnGroupData, CallbackInfoReturnable<SpawnGroupData> cir) {
+	public void onInitialize(ServerLevelAccessor serverLevelAccessor, DifficultyInstance difficultyInstance, EntitySpawnReason entitySpawnReason, SpawnGroupData spawnGroupData, CallbackInfoReturnable<SpawnGroupData> cir) {
 		if (serverLevelAccessor.getBiome(this.blockPosition()).unwrapKey().isPresent()) {
 			setVillagerData(getVillagerData().setType(
 					VillagerTypeRegistry.getVillagerTypeForBiome(serverLevelAccessor.getBiome(this.blockPosition()))));

@@ -1,3 +1,3 @@
-// 1.20.1	2023-07-10T16:42:07.3403085	VampireLib/Tags for minecraft:item
-2c109645cf71b22e2a4869e22faeee01d1524442 data\minecraft\tags\items\stone_crafting_materials.json
-5e73deb65417fb01608f5ff564c98343b1d24408 data\minecraft\tags\items\stone_tool_materials.json
+// 24w45a	2024-11-10T02:29:19.7635047	VampireLib/Tags for minecraft:item
+c26fa003c5bbdbcdccf1370348175e0c0caa4b6b data\minecraft\tags\item\stone_tool_materials.json
+f119dd8ff537cef3a8246365e4244389da428fd1 data\minecraft\tags\item\stone_crafting_materials.json

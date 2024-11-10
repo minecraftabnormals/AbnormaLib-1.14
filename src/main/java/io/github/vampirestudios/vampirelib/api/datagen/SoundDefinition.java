@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022-2024 OliviaTheVampire
+ * Copyright (c) 2024 OliviaTheVampire
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -66,7 +66,7 @@ public final class SoundDefinition {
 	 * @return this
 	 */
 	public static SoundDefinition definition(Supplier<SoundEvent> sound) {
-		return new SoundDefinition(sound.get().getLocation().getPath());
+		return new SoundDefinition(sound.get().location().getPath());
 	}
 
 	/**
@@ -88,8 +88,8 @@ public final class SoundDefinition {
 	 * @return this
 	 */
 	public static SoundBuilder sound(Supplier<SoundEvent> sound) {
-		return new SoundBuilder(new ResourceLocation(sound.get().getLocation().getNamespace(),
-				sound.get().getLocation().getPath().replaceAll("\\.", "/")));
+		return new SoundBuilder(ResourceLocation.fromNamespaceAndPath(sound.get().location().getNamespace(),
+				sound.get().location().getPath().replaceAll("\\.", "/")));
 	}
 
 	/**

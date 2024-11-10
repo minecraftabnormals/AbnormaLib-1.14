@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022-2024 OliviaTheVampire
+ * Copyright (c) 2024 OliviaTheVampire
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -19,6 +19,8 @@ package io.github.vampirestudios.vampirelib.utils.registry;
 
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
@@ -128,7 +130,7 @@ public class EntityRegistryBuilder<E extends Entity> {
 			entityBuilder.forceTrackedVelocityUpdates(this.alwaysUpdateVelocity);
 		}
 
-		EntityType<E> entityType = Registry.register(BuiltInRegistries.ENTITY_TYPE, name, entityBuilder.build());
+		EntityType<E> entityType = Registry.register(BuiltInRegistries.ENTITY_TYPE, name, entityBuilder.build(ResourceKey.create(Registries.ENTITY_TYPE, name)));
 
 		if (hasEgg) {
 			RegistryHelper.createRegistryHelper(name.getNamespace()).items()

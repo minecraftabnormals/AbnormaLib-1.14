@@ -17,17 +17,27 @@
 
 package io.github.vampirestudios.vampirelib.api.datagen;
 
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import org.joml.Vector3f;
 
 import net.minecraft.Util;
 import net.minecraft.client.model.geom.PartPose;
-import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.client.model.geom.builders.CubeDefinition;
+import net.minecraft.client.model.geom.builders.CubeDeformation;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.model.geom.builders.MaterialDefinition;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
+import net.minecraft.client.model.geom.builders.UVPair;
 import net.minecraft.core.Direction;
 import net.minecraft.util.ExtraCodecs;
-import org.joml.Vector3f;
-
-import java.util.*;
 
 /**
  * Codecs for model loading.
@@ -44,8 +54,8 @@ public final class ModelCodecs {
 
 	public static final Codec<PartPose> PART_POSE = RecordCodecBuilder.create(instance ->
 			instance.group(
-					ExtraCodecs.VECTOR3F.optionalFieldOf("origin", new Vector3f()).forGetter(obj -> new Vector3f(obj.x, obj.y, obj.z)),
-					ExtraCodecs.VECTOR3F.optionalFieldOf("rotation", new Vector3f()).forGetter(obj -> new Vector3f(obj.xRot, obj.yRot, obj.zRot))
+					ExtraCodecs.VECTOR3F.optionalFieldOf("origin", new Vector3f()).forGetter(obj -> new Vector3f(obj.x(), obj.y(), obj.z())),
+					ExtraCodecs.VECTOR3F.optionalFieldOf("rotation", new Vector3f()).forGetter(obj -> new Vector3f(obj.xRot(), obj.yRot(), obj.zRot()))
 			).apply(instance, (origin, rot) -> PartPose.offsetAndRotation(origin.x(), origin.y(), origin.z(), rot.x(), rot.y(), rot.z()))
 	);
 

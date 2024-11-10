@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022-2024 OliviaTheVampire
+ * Copyright (c) 2024 OliviaTheVampire
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -22,7 +22,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.level.ServerLevelAccessor;
 
 import io.github.vampirestudios.vampirelib.api.callbacks.EntitySpawnCallback;
@@ -37,13 +37,13 @@ public final class EntitySpawnImpl {
 	public static boolean spawnEntityZ(ServerLevel self, Entity entity) {
 		AtomicReference<Entity> currentEntity = new AtomicReference<>(entity);
 		InteractionResult result = EntitySpawnCallback.PRE.invoker().onEntitySpawnPre(entity, currentEntity, self,
-				MobSpawnType.COMMAND);
+			EntitySpawnReason.COMMAND);
 		entity = currentEntity.get();
 
 		if (result != InteractionResult.FAIL) {
 			if (self.tryAddFreshEntityWithPassengers(entity)) {
 				EntitySpawnCallback.POST.invoker()
-						.onEntitySpawnPost(entity, self, entity.position(), MobSpawnType.COMMAND);
+						.onEntitySpawnPost(entity, self, entity.position(), EntitySpawnReason.COMMAND);
 				return true;
 			}
 		}
@@ -57,19 +57,19 @@ public final class EntitySpawnImpl {
 	public static void spawnEntityV(ServerLevelAccessor self, Entity entity) {
 		AtomicReference<Entity> currentEntity = new AtomicReference<>(entity);
 		InteractionResult result = EntitySpawnCallback.PRE.invoker().onEntitySpawnPre(entity, currentEntity, self,
-				MobSpawnType.NATURAL);
+			EntitySpawnReason.NATURAL);
 		entity = currentEntity.get();
 
 		if (result != InteractionResult.FAIL) {
 			self.addFreshEntityWithPassengers(entity);
-			EntitySpawnCallback.POST.invoker().onEntitySpawnPost(entity, self, entity.position(), MobSpawnType.NATURAL);
+			EntitySpawnCallback.POST.invoker().onEntitySpawnPost(entity, self, entity.position(), EntitySpawnReason.NATURAL);
 		}
 	}
 
 	/**
 	 * @author Valoeghese
 	 */
-	public static Entity spawnEntityE(Entity entity, ServerLevel serverWorld, MobSpawnType spawnReason) {
+	public static Entity spawnEntityE(Entity entity, ServerLevel serverWorld, EntitySpawnReason spawnReason) {
 		if (entity != null) {
 			AtomicReference<Entity> currentEntity = new AtomicReference<>(entity);
 			InteractionResult result = EntitySpawnCallback.PRE.invoker()
@@ -89,7 +89,7 @@ public final class EntitySpawnImpl {
 	/**
 	 * @author Valoeghese
 	 */
-	public static InteractionResult eventPre(Entity original, AtomicReference<Entity> entity, ServerLevelAccessor world, MobSpawnType reason, EntitySpawnCallback.Pre[] listeners) {
+	public static InteractionResult eventPre(Entity original, AtomicReference<Entity> entity, ServerLevelAccessor world, EntitySpawnReason reason, EntitySpawnCallback.Pre[] listeners) {
 		for (EntitySpawnCallback.Pre callback : listeners) {
 			InteractionResult result = callback.onEntitySpawnPre(original, entity, world, reason);
 

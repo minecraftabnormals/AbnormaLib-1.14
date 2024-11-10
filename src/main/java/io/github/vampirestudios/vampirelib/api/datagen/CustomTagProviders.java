@@ -27,7 +27,6 @@ import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.resources.ResourceKey;
@@ -37,7 +36,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
@@ -114,21 +112,6 @@ public abstract class CustomTagProviders<T> extends FabricTagProvider<T> {
 			TagBuilder blockTagBuilder = Objects.requireNonNull(this.blockTagBuilderProvider, "Pass Block tag provider via constructor to use copy").apply(blockTag);
 			TagBuilder itemTagBuilder = this.getOrCreateRawBuilder(itemTag);
 			blockTagBuilder.build().forEach(itemTagBuilder::add);
-		}
-	}
-
-	/**
-	 * Extend this class to create {@link Enchantment} tags in the "/enchantments" tag directory.
-	 */
-	public abstract static class VEnchantmentTagProvider extends CustomTagProviders<Enchantment> {
-		public VEnchantmentTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> completableFuture) {
-			super(output, Registries.ENCHANTMENT, completableFuture);
-		}
-
-		@Override
-		protected ResourceKey<Enchantment> reverseLookup(Enchantment element) {
-			return BuiltInRegistries.ENCHANTMENT.getResourceKey(element)
-					.orElseThrow(() -> new IllegalArgumentException("Enchantment " + element + " is not registered"));
 		}
 	}
 

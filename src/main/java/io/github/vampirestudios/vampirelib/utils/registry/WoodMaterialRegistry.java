@@ -40,7 +40,7 @@ public abstract class WoodMaterialRegistry implements StringRepresentable {
 	private static final Queue<ModdedTypeListener> listeners = new ConcurrentLinkedQueue<>();
 
 	public static WoodMaterial get(ResourceLocation id) {
-		return WOOD_MATERIALS.get(id);
+		return WOOD_MATERIALS.getValue(id);
 	}
 
 	public static boolean contains(ResourceLocation id) {

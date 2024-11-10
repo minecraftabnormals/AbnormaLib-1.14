@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022-2024 OliviaTheVampire
+ * Copyright (c) 2024 OliviaTheVampire
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -36,11 +36,11 @@ import io.github.vampirestudios.vampirelib.modules.utils.ConsoleUtils;
 
 public final class FeatureManager {
 	public static final Registry<CommonFeature> COMMON_FEATURES = FabricRegistryBuilder.createSimple(
-			CommonFeature.class, new ResourceLocation("vampirelib:common_features")).buildAndRegister();
+			CommonFeature.class, ResourceLocation.parse("vampirelib:common_features")).buildAndRegister();
 	public static final Registry<ClientFeature> CLIENT_FEATURES = FabricRegistryBuilder.createSimple(
-			ClientFeature.class, new ResourceLocation("vampirelib:client_features")).buildAndRegister();
+			ClientFeature.class, ResourceLocation.parse("vampirelib:client_features")).buildAndRegister();
 	public static final Registry<ServerFeature> SERVER_FEATURES = FabricRegistryBuilder.createSimple(
-			ServerFeature.class, new ResourceLocation("vampirelib:server_features")).buildAndRegister();
+			ServerFeature.class, ResourceLocation.parse("vampirelib:server_features")).buildAndRegister();
 	private final List<CommonFeature> commonFeatures = new ArrayList<>();
 	private final List<ClientFeature> clientFeatures = new ArrayList<>();
 	private final List<ServerFeature> serverFeatures = new ArrayList<>();
@@ -53,7 +53,7 @@ public final class FeatureManager {
 	}
 
 	public static FeatureManager getFeatureManager(ResourceLocation modIdentifier) {
-		return VRegistries.FEATURE_MANAGERS.get(modIdentifier);
+		return VRegistries.FEATURE_MANAGERS.getValue(modIdentifier);
 	}
 
 	public void registerCommonFeature(CommonFeature module) {
@@ -154,17 +154,17 @@ public final class FeatureManager {
 
 	public boolean isFeatureEnabled(ResourceLocation name) {
 		if (COMMON_FEATURES.containsKey(name)) {
-			CommonFeature module = COMMON_FEATURES.get(name);
+			CommonFeature module = COMMON_FEATURES.getValue(name);
 			return Objects.requireNonNull(module).isEnabled();
 		}
 
 		if (CLIENT_FEATURES.containsKey(name)) {
-			ClientFeature module = CLIENT_FEATURES.get(name);
+			ClientFeature module = CLIENT_FEATURES.getValue(name);
 			return Objects.requireNonNull(module).isEnabled();
 		}
 
 		if (SERVER_FEATURES.containsKey(name)) {
-			ServerFeature module = SERVER_FEATURES.get(name);
+			ServerFeature module = SERVER_FEATURES.getValue(name);
 			return Objects.requireNonNull(module).isEnabled();
 		}
 

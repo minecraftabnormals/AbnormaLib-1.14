@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023-2024 OliviaTheVampire
+ * Copyright (c) 2024 OliviaTheVampire
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -17,14 +17,14 @@
 
 package io.github.vampirestudios.vampirelib.api.datagen;
 
-import net.minecraft.data.models.model.ModelTemplate;
-import net.minecraft.data.models.model.TextureMapping;
+import net.minecraft.client.data.models.model.ModelTemplate;
+import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.world.item.Item;
 
 import io.github.vampirestudios.vampirelib.api.datagen.builder.ModelBuilder;
 
 /**
- * Fabric-provided extensions for {@link net.minecraft.data.models.ItemModelGenerators}.
+ * Fabric-provided extensions for {@link net.minecraft.client.data.models.ItemModelGenerators}.
  *
  * <p>Note: This interface is automatically implemented on all generators via Mixin and interface injection.
  */

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022-2024 OliviaTheVampire
+ * Copyright (c) 2024 OliviaTheVampire
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -28,7 +28,7 @@ public interface PointOfInterestRegistry {
 		if (!BuiltInRegistries.POINT_OF_INTEREST_TYPE.containsKey(id) &&
 				!pointOfInterestTypeCustom.matchingStates().isEmpty())
 			return Registry.register(BuiltInRegistries.POINT_OF_INTEREST_TYPE, id, pointOfInterestTypeCustom);
-		else return BuiltInRegistries.POINT_OF_INTEREST_TYPE.get(id);
+		else return BuiltInRegistries.POINT_OF_INTEREST_TYPE.getValue(id);
 	}
 
 }

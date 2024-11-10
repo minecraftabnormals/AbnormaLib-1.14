@@ -17,8 +17,6 @@
 
 package io.github.vampirestudios.vampirelib;
 
-import static io.github.vampirestudios.vampirelib.VampireLib.TEST_CONTENT_ENABLED;
-
 import java.io.File;
 import java.io.Reader;
 import java.nio.file.Files;
@@ -27,19 +25,20 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
+import net.minecraft.client.data.models.BlockModelGenerators;
+import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.data.models.BlockModelGenerators;
-import net.minecraft.data.models.ItemModelGenerators;
 import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 
+import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 
 import io.github.vampirestudios.vampirelib.api.datagen.CustomTagProviders;
@@ -49,23 +48,23 @@ public class VampireLibDataGen implements DataGeneratorEntrypoint {
 	@Override
 	public void onInitializeDataGenerator(FabricDataGenerator dataGenerator) {
 		FabricDataGenerator.Pack pack = dataGenerator.createPack();
-		if (TEST_CONTENT_ENABLED) {
+		/*if (TEST_CONTENT_ENABLED) {
 			FabricDataGenerator.Pack pack1 = dataGenerator.createBuiltinResourcePack(VampireLib.INSTANCE.identifier("wood_types"));
 			pack1.addProvider(WoodTypeBlockStateDefinitionProvider::new);
-//			pack1.addProvider((FabricDataGenerator.Pack.Factory<DataProvider>) output -> new WoodTypeTranslationProvider(output, "en_us"));
-//			pack1.addProvider((FabricDataGenerator.Pack.Factory<DataProvider>) output -> new WoodTypeTranslationProvider(output, "fr_fr"));
-//			pack1.addProvider((FabricDataGenerator.Pack.Factory<DataProvider>) output -> new WoodTypeTranslationProvider(output, "no_no"));
-//			pack1.addProvider((FabricDataGenerator.Pack.Factory<DataProvider>) output -> new WoodTypeTranslationProvider(output, "da_dk"));
-//			pack1.addProvider((FabricDataGenerator.Pack.Factory<DataProvider>) output -> new WoodTypeTranslationProvider(output, "de_de"));
-//			pack1.addProvider((FabricDataGenerator.Pack.Factory<DataProvider>) output -> new WoodTypeTranslationProvider(output, "fi_fi"));
-//			pack1.addProvider((FabricDataGenerator.Pack.Factory<DataProvider>) output -> new WoodTypeTranslationProvider(output, "enws"));
-//			pack1.addProvider((FabricDataGenerator.Pack.Factory<DataProvider>) output -> new WoodTypeTranslationProvider(output, "lol_us"));
-//			pack1.addProvider((FabricDataGenerator.Pack.Factory<DataProvider>) output -> new WoodTypeTranslationProvider(output, "nl_nl"));
+			pack1.addProvider((output, registriesFuture) -> new WoodTypeTranslationProvider(output, "en_us", registriesFuture));
+			pack1.addProvider((output, registriesFuture) -> new WoodTypeTranslationProvider(output, "fr_fr", registriesFuture));
+			pack1.addProvider((output, registriesFuture) -> new WoodTypeTranslationProvider(output, "no_no", registriesFuture));
+			pack1.addProvider((output, registriesFuture) -> new WoodTypeTranslationProvider(output, "da_dk", registriesFuture));
+			pack1.addProvider((output, registriesFuture) -> new WoodTypeTranslationProvider(output, "de_de", registriesFuture));
+			pack1.addProvider((output, registriesFuture) -> new WoodTypeTranslationProvider(output, "fi_fi", registriesFuture));
+			pack1.addProvider((output, registriesFuture) -> new WoodTypeTranslationProvider(output, "enws", registriesFuture));
+			pack1.addProvider((output, registriesFuture) -> new WoodTypeTranslationProvider(output, "lol_us", registriesFuture));
+			pack1.addProvider((output, registriesFuture) -> new WoodTypeTranslationProvider(output, "nl_nl", registriesFuture));
 			pack1.addProvider(WoodTypeRecipeProvider::new);
 			WoodTypeBlockTagProvider blockTagsProvider = pack1.addProvider(WoodTypeBlockTagProvider::new);
 			pack1.addProvider((output, registriesFuture) -> new WoodTypeItemTagProvider(output, blockTagsProvider, registriesFuture));
 			pack1.addProvider(WoodTypeBlockLootTableProvider::new);
-		}
+		}*/
 		VBlockTagsProvider blockTagsProvider = pack.addProvider(VBlockTagsProvider::new);
 		pack.addProvider((output, registriesFuture) -> new VItemTagsProvider(output, registriesFuture, blockTagsProvider));
 	}
@@ -182,43 +181,53 @@ public class VampireLibDataGen implements DataGeneratorEntrypoint {
 		}
 
 		@Override
-		public void buildRecipes(RecipeOutput exporter) {
-			generateWoodTypeRecipes(exporter, VampireLib.TEST_WOOD);
-			generateWoodTypeRecipes(exporter, VampireLib.TEST_WOOD1);
-			generateWoodTypeRecipes(exporter, VampireLib.TEST_WOOD2);
-			generateWoodTypeRecipes(exporter, VampireLib.TEST_WOOD3);
-			generateWoodTypeRecipes(exporter, VampireLib.TEST_WOOD4);
-			generateWoodTypeRecipes(exporter, VampireLib.TEST_WOOD5);
-			generateWoodTypeRecipes(exporter, VampireLib.TEST_WOOD6);
-			generateWoodTypeRecipes(exporter, VampireLib.TEST_WOOD7);
-			generateWoodTypeRecipes(exporter, VampireLib.TEST_WOOD8);
-			generateWoodTypeRecipes(exporter, VampireLib.TEST_WOOD9);
-			generateWoodTypeRecipes(exporter, VampireLib.TEST_WOOD10);
-			generateWoodTypeRecipes(exporter, VampireLib.TEST_WOOD11);
-			generateWoodTypeRecipes(exporter, VampireLib.TEST_WOOD12);
-			generateWoodTypeRecipes(exporter, VampireLib.TEST_WOOD13);
-			generateWoodTypeRecipes(exporter, VampireLib.TEST_WOOD14);
-			generateWoodTypeRecipes(exporter, VampireLib.TEST_WOOD15);
-			generateWoodTypeRecipes(exporter, VampireLib.TEST_WOOD16);
+		protected RecipeProvider createRecipeProvider(HolderLookup.Provider registryLookup, RecipeOutput exporter) {
+			return new RecipeProvider(registryLookup, exporter) {
+				@Override
+				public void buildRecipes() {
+					generateWoodTypeRecipes(this, exporter, VampireLib.TEST_WOOD);
+					generateWoodTypeRecipes(this, exporter, VampireLib.TEST_WOOD1);
+					generateWoodTypeRecipes(this, exporter, VampireLib.TEST_WOOD2);
+					generateWoodTypeRecipes(this, exporter, VampireLib.TEST_WOOD3);
+					generateWoodTypeRecipes(this, exporter, VampireLib.TEST_WOOD4);
+					generateWoodTypeRecipes(this, exporter, VampireLib.TEST_WOOD5);
+					generateWoodTypeRecipes(this, exporter, VampireLib.TEST_WOOD6);
+					generateWoodTypeRecipes(this, exporter, VampireLib.TEST_WOOD7);
+					generateWoodTypeRecipes(this, exporter, VampireLib.TEST_WOOD8);
+					generateWoodTypeRecipes(this, exporter, VampireLib.TEST_WOOD9);
+					generateWoodTypeRecipes(this, exporter, VampireLib.TEST_WOOD10);
+					generateWoodTypeRecipes(this, exporter, VampireLib.TEST_WOOD11);
+					generateWoodTypeRecipes(this, exporter, VampireLib.TEST_WOOD12);
+					generateWoodTypeRecipes(this, exporter, VampireLib.TEST_WOOD13);
+					generateWoodTypeRecipes(this, exporter, VampireLib.TEST_WOOD14);
+					generateWoodTypeRecipes(this, exporter, VampireLib.TEST_WOOD15);
+					generateWoodTypeRecipes(this, exporter, VampireLib.TEST_WOOD16);
 
-			generateWoodTypeRecipes(exporter, VampireLib.TEST_NETHER_WOOD);
-			generateWoodTypeRecipes(exporter, VampireLib.TEST_NETHER_WOOD1);
-			generateWoodTypeRecipes(exporter, VampireLib.TEST_NETHER_WOOD2);
-			generateWoodTypeRecipes(exporter, VampireLib.TEST_NETHER_WOOD3);
-			generateWoodTypeRecipes(exporter, VampireLib.TEST_NETHER_WOOD4);
-			generateWoodTypeRecipes(exporter, VampireLib.TEST_NETHER_WOOD5);
-			generateWoodTypeRecipes(exporter, VampireLib.TEST_NETHER_WOOD6);
-			generateWoodTypeRecipes(exporter, VampireLib.TEST_NETHER_WOOD7);
-			generateWoodTypeRecipes(exporter, VampireLib.TEST_NETHER_WOOD8);
-			generateWoodTypeRecipes(exporter, VampireLib.TEST_NETHER_WOOD9);
-			generateWoodTypeRecipes(exporter, VampireLib.TEST_NETHER_WOOD10);
-			generateWoodTypeRecipes(exporter, VampireLib.TEST_NETHER_WOOD11);
-			generateWoodTypeRecipes(exporter, VampireLib.TEST_NETHER_WOOD12);
-			generateWoodTypeRecipes(exporter, VampireLib.TEST_NETHER_WOOD13);
+					generateWoodTypeRecipes(this, exporter, VampireLib.TEST_NETHER_WOOD);
+					generateWoodTypeRecipes(this, exporter, VampireLib.TEST_NETHER_WOOD1);
+					generateWoodTypeRecipes(this, exporter, VampireLib.TEST_NETHER_WOOD2);
+					generateWoodTypeRecipes(this, exporter, VampireLib.TEST_NETHER_WOOD3);
+					generateWoodTypeRecipes(this, exporter, VampireLib.TEST_NETHER_WOOD4);
+					generateWoodTypeRecipes(this, exporter, VampireLib.TEST_NETHER_WOOD5);
+					generateWoodTypeRecipes(this, exporter, VampireLib.TEST_NETHER_WOOD6);
+					generateWoodTypeRecipes(this, exporter, VampireLib.TEST_NETHER_WOOD7);
+					generateWoodTypeRecipes(this, exporter, VampireLib.TEST_NETHER_WOOD8);
+					generateWoodTypeRecipes(this, exporter, VampireLib.TEST_NETHER_WOOD9);
+					generateWoodTypeRecipes(this, exporter, VampireLib.TEST_NETHER_WOOD10);
+					generateWoodTypeRecipes(this, exporter, VampireLib.TEST_NETHER_WOOD11);
+					generateWoodTypeRecipes(this, exporter, VampireLib.TEST_NETHER_WOOD12);
+					generateWoodTypeRecipes(this, exporter, VampireLib.TEST_NETHER_WOOD13);
+				}
+			};
 		}
 
-		private void generateWoodTypeRecipes(RecipeOutput exporter, WoodRegistry woodRegistry) {
-			woodRegistry.generateRecipes(exporter);
+		private void generateWoodTypeRecipes(RecipeProvider provider, RecipeOutput exporter, WoodRegistry woodRegistry) {
+			woodRegistry.generateRecipes(provider, exporter);
+		}
+
+		@Override
+		public String getName() {
+			return "Wood Type Recipe Provider";
 		}
 	}
 

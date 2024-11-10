@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023-2024 OliviaTheVampire
+ * Copyright (c) 2024 OliviaTheVampire
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -25,6 +25,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -35,8 +36,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-import net.minecraft.data.models.model.ModelTemplate;
-import net.minecraft.data.models.model.TextureSlot;
+import net.minecraft.client.data.models.model.ModelTemplate;
+import net.minecraft.client.data.models.model.TextureSlot;
 import net.minecraft.resources.ResourceLocation;
 
 import io.github.vampirestudios.vampirelib.api.datagen.DisplayBuilder;
@@ -137,8 +138,8 @@ public class ModelMixin implements FabricModel {
 		return ambientOcclusion;
 	}
 
-	@Inject(method = "createBaseTemplate", at = @At("TAIL"), locals = LocalCapture.CAPTURE_FAILHARD)
-	public void addExtraProperties(ResourceLocation resourceLocation, Map<TextureSlot, ResourceLocation> map, CallbackInfoReturnable<JsonObject> cir, JsonObject jsonObject) {
+	@Inject(method = "method_65503", at = @At("TAIL"), locals = LocalCapture.CAPTURE_FAILHARD)
+	public void addExtraProperties(Map<TextureSlot, ResourceLocation> map, CallbackInfoReturnable<JsonElement> cir, JsonObject jsonObject) {
 		if (!displays.isEmpty()) {
 			JsonObject display = new JsonObject();
 			this.displays.forEach((p, d) -> display.add(p.name().toLowerCase(), d.build()));

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023-2024 OliviaTheVampire
+ * Copyright (c) 2024 OliviaTheVampire
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -26,6 +26,6 @@ import io.github.vampirestudios.vampirelib.modules.FeatureManager;
 
 public class VRegistries {
 	public static final Registry<FeatureManager> FEATURE_MANAGERS = FabricRegistryBuilder.createSimple(
-			FeatureManager.class, new ResourceLocation("vampirelib", "feature_managers")
+			FeatureManager.class, ResourceLocation.fromNamespaceAndPath("vampirelib", "feature_managers")
 	).buildAndRegister();
 }

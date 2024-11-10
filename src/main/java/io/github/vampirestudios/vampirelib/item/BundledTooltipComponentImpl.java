@@ -28,11 +28,11 @@ import net.minecraft.client.renderer.MultiBufferSource;
 
 public record BundledTooltipComponentImpl(List<ClientTooltipComponent> list) implements ClientTooltipComponent {
 	@Override
-	public int getHeight() {
+	public int getHeight(Font font) {
 		int h = 0;
 
 		for (ClientTooltipComponent component : list) {
-			h += component.getHeight();
+			h += component.getHeight(font);
 		}
 
 		return h;
@@ -55,17 +55,17 @@ public record BundledTooltipComponentImpl(List<ClientTooltipComponent> list) imp
 
 		for (ClientTooltipComponent component : list) {
 			component.renderText(textRenderer, x, y1, matrix4f, bufferSource);
-			y1 += component.getHeight();
+			y1 += component.getHeight(textRenderer);
 		}
 	}
 
 	@Override
-	public void renderImage(Font textRenderer, int x, int y, GuiGraphics guiGraphics) {
+	public void renderImage(Font textRenderer, int x, int y, int width, int height, GuiGraphics guiGraphics) {
 		int y1 = y;
 
 		for (ClientTooltipComponent component : list) {
-			component.renderImage(textRenderer, x, y1, guiGraphics);
-			y1 += component.getHeight();
+			component.renderImage(textRenderer, x, y1, width, height, guiGraphics);
+			y1 += component.getHeight(textRenderer);
 		}
 	}
 }

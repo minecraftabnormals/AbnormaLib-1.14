@@ -97,12 +97,12 @@ public class EntityModelCodecHolder {
         }, List::copyOf);
     }
     public static final Codec<PartPose> PART_POSE_CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            Codec.FLOAT.optionalFieldOf("x", 0F).forGetter(partPose -> partPose.x),
-            Codec.FLOAT.optionalFieldOf("y", 0F).forGetter(partPose -> partPose.y),
-            Codec.FLOAT.optionalFieldOf("z", 0F).forGetter(partPose -> partPose.z),
-            Codec.FLOAT.optionalFieldOf("xRot", 0F).forGetter(partPose -> partPose.xRot),
-            Codec.FLOAT.optionalFieldOf("yRot", 0F).forGetter(partPose -> partPose.yRot),
-            Codec.FLOAT.optionalFieldOf("zRot", 0F).forGetter(partPose -> partPose.zRot)
+            Codec.FLOAT.optionalFieldOf("x", 0F).forGetter(partPose -> partPose.x()),
+            Codec.FLOAT.optionalFieldOf("y", 0F).forGetter(partPose -> partPose.y()),
+            Codec.FLOAT.optionalFieldOf("z", 0F).forGetter(partPose -> partPose.z()),
+            Codec.FLOAT.optionalFieldOf("xRot", 0F).forGetter(partPose -> partPose.xRot()),
+            Codec.FLOAT.optionalFieldOf("yRot", 0F).forGetter(partPose -> partPose.yRot()),
+            Codec.FLOAT.optionalFieldOf("zRot", 0F).forGetter(partPose -> partPose.zRot())
     ).apply(instance, PartPose::offsetAndRotation));
 
     public static final Codec<PartDefinition> PART_DEFINITION_CODEC = RecordCodecBuilder.create(instance -> instance.group(
@@ -142,7 +142,7 @@ public class EntityModelCodecHolder {
             return getLayerLocationParseError(layerLocation, "missing model (part before hashtag)");
 
         try {
-            return DataResult.success(new ModelLayerLocation(new ResourceLocation(model), layer));
+            return DataResult.success(new ModelLayerLocation(ResourceLocation.parse(model), layer));
         } catch (ResourceLocationException e) {
             return getLayerLocationParseError(layerLocation, e.getMessage());
         }
@@ -186,7 +186,7 @@ public class EntityModelCodecHolder {
             return b == null;
         if (b == null) // a is not null but b is null, so false
             return false;
-        return a.x == b.x && a.y == b.y && a.z == b.z && a.xRot == b.xRot && a.yRot == b.yRot && a.zRot == b.zRot;
+        return a.x() == b.x() && a.y() == b.y() && a.z() == b.z() && a.xRot() == b.xRot() && a.yRot() == b.yRot() && a.zRot() == b.zRot();
     }
 
     private static Codec<PartDefinition> getPartDefinitionCodec() {

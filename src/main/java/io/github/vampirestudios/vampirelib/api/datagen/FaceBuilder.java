@@ -26,8 +26,8 @@ import org.joml.Vector2i;
 import org.joml.Vector4i;
 
 import net.minecraft.core.Direction;
-import net.minecraft.data.models.blockstates.VariantProperties;
-import net.minecraft.data.models.model.TextureSlot;
+import net.minecraft.client.data.models.blockstates.VariantProperties;
+import net.minecraft.client.data.models.model.TextureSlot;
 
 /**
  * Instantiate this class in order to provide a set of <code>faces</code> to be rendered for an element of a JSON model.

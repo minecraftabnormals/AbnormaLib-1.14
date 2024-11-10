@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023-2024 OliviaTheVampire
+ * Copyright (c) 2024 OliviaTheVampire
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -21,7 +21,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.Vec3;
 
@@ -69,7 +69,7 @@ public interface EntitySpawnCallback {
 		 * <li>{@code FAIL} cancel spawning the entity.
 		 * </ul>
 		 */
-		InteractionResult onEntitySpawnPre(Entity original, AtomicReference<Entity> entity, ServerLevelAccessor world, MobSpawnType reason);
+		InteractionResult onEntitySpawnPre(Entity original, AtomicReference<Entity> entity, ServerLevelAccessor world, EntitySpawnReason reason);
 	}
 
 	/**
@@ -83,6 +83,6 @@ public interface EntitySpawnCallback {
 		 * @param pos    the position at which the entity spawned.
 		 * @param reason the cause for the entity spawn.
 		 */
-		void onEntitySpawnPost(Entity entity, ServerLevelAccessor world, Vec3 pos, MobSpawnType reason);
+		void onEntitySpawnPost(Entity entity, ServerLevelAccessor world, Vec3 pos, EntitySpawnReason reason);
 	}
 }

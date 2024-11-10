@@ -18,17 +18,16 @@
 package io.github.vampirestudios.vampirelib.mixins;
 
 import java.util.function.BiConsumer;
-import java.util.function.Supplier;
 
-import com.google.gson.JsonElement;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
-import net.minecraft.data.models.ItemModelGenerators;
-import net.minecraft.data.models.model.ModelLocationUtils;
-import net.minecraft.data.models.model.ModelTemplate;
-import net.minecraft.data.models.model.TextureMapping;
+import net.minecraft.client.data.models.ItemModelGenerators;
+import net.minecraft.client.data.models.model.ModelInstance;
+import net.minecraft.client.data.models.model.ModelLocationUtils;
+import net.minecraft.client.data.models.model.ModelTemplate;
+import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 
@@ -38,15 +37,15 @@ import io.github.vampirestudios.vampirelib.api.datagen.FabricItemModelGenerator;
 public class ItemModelGeneratorMixin implements FabricItemModelGenerator {
 	@Shadow
 	@Final
-	public BiConsumer<ResourceLocation, Supplier<JsonElement>> output;
+	public BiConsumer<ResourceLocation, ModelInstance> modelOutput;
 
 	@Override
 	public void register(Item item, ModelTemplate model, TextureMapping textureMap) {
-		model.create(ModelLocationUtils.getModelLocation(item), textureMap, this.output);
+		model.create(ModelLocationUtils.getModelLocation(item), textureMap, this.modelOutput);
 	}
 
 	@Override
 	public void register(Item item, String suffix, ModelTemplate model, TextureMapping textureMap) {
-		model.create(ModelLocationUtils.getModelLocation(item, suffix), textureMap, this.output);
+		model.create(ModelLocationUtils.getModelLocation(item, suffix), textureMap, this.modelOutput);
 	}
 }

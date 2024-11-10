@@ -13,14 +13,14 @@
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *//*
-
+ */
 
 package io.github.vampirestudios.vampirelib.api.datagen;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
@@ -35,21 +35,18 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLootTableProvider;
-import net.fabricmc.fabric.impl.datagen.loot.FabricLootTableProviderImpl;
 
-*/
 /**
  * Extend this class and implement {@link net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider#generate}.
  *
  * <p>Register an instance of the class with {@link FabricDataGenerator.Pack#addProvider} in a {@link net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint}.
- *//*
+ */
 
 public abstract class VBlockLootTableProvider extends BlockLootSubProvider implements FabricLootTableProvider {
 	private final FabricDataOutput output;
@@ -57,25 +54,23 @@ public abstract class VBlockLootTableProvider extends BlockLootSubProvider imple
 	private final CompletableFuture<HolderLookup.Provider> registryLookup;
 
 	protected VBlockLootTableProvider(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
-		super(Collections.emptySet(), FeatureFlags.REGISTRY.allFlags());
+		super(Collections.emptySet(), FeatureFlags.REGISTRY.allFlags(), registryLookup.join());
 		this.output = dataOutput;
 		this.registryLookup = registryLookup;
 	}
 
-	*/
-/**
+	/**
 	 * Implement this method to add block drops.
 	 *
 	 * <p>Use the range of {@link BlockLootSubProvider#dropSelf} methods to generate block drops.
-	 *//*
+	 */
 
 	@Override
 	public abstract void generate();
 
-	*/
-/**
+	/**
 	 * Disable strict validation for the passed block.
-	 *//*
+	 */
 
 	public void excludeFromStrictValidation(Block block) {
 		excludedFromStrictValidation.add(BuiltInRegistries.BLOCK.getKey(block));
@@ -88,7 +83,7 @@ public abstract class VBlockLootTableProvider extends BlockLootSubProvider imple
 		for (Map.Entry<ResourceKey<LootTable>, LootTable.Builder> entry : map.entrySet()) {
 			ResourceKey<LootTable> identifier = entry.getKey();
 
-			if (identifier.equals(BuiltInLootTables.EMPTY)) {
+			if (identifier.equals(ResourceLocation.withDefaultNamespace("empty"))) {
 				continue;
 			}
 
@@ -100,9 +95,9 @@ public abstract class VBlockLootTableProvider extends BlockLootSubProvider imple
 
 			for (ResourceLocation blockId : BuiltInRegistries.BLOCK.keySet()) {
 				if (blockId.getNamespace().equals(output.getModId())) {
-					ResourceKey<LootTable> blockLootTableId = BuiltInRegistries.BLOCK.get(blockId).getLootTable();
+					Optional<ResourceKey<LootTable>> blockLootTableId = BuiltInRegistries.BLOCK.getValue(blockId).getLootTable();
 
-					if (blockLootTableId.location().getNamespace().equals(output.getModId())) {
+					if (blockLootTableId.orElseThrow().location().getNamespace().equals(output.getModId())) {
 						if (!map.containsKey(blockLootTableId)) {
 							missing.add(blockId);
 						}
@@ -120,7 +115,7 @@ public abstract class VBlockLootTableProvider extends BlockLootSubProvider imple
 
 	@Override
 	public CompletableFuture<?> run(CachedOutput writer) {
-		return FabricLootTableProviderImpl.run(writer, this, LootContextParamSets.BLOCK, output, registryLookup);
+		return VLootTableProviderImpl.run(writer, this, LootContextParamSets.BLOCK, output, registryLookup);
 	}
 
 	@Override
@@ -128,4 +123,3 @@ public abstract class VBlockLootTableProvider extends BlockLootSubProvider imple
 		return "Block Loot Tables";
 	}
 }
-*/

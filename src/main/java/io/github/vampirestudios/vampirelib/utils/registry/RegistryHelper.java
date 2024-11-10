@@ -17,11 +17,14 @@
 
 package io.github.vampirestudios.vampirelib.utils.registry;
 
+import java.util.List;
 import java.util.Map;
 
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
@@ -36,6 +39,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.StandingAndWallBlockItem;
 import net.minecraft.world.item.alchemy.Potion;
+import net.minecraft.world.item.component.CustomModelData;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -125,8 +129,8 @@ public record RegistryHelper(String modId) {
 		}
 
 		public Block registerBlock(Block block, String name, Block parentBlock, ResourceKey<CreativeModeTab>... itemGroups) {
-			Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(modId, name), block);
-			Item item = Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(modId, name),
+			Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.fromNamespaceAndPath(modId, name), block);
+			Item item = Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(modId, name),
 					new BlockItem(block, new Item.Properties()));
 			for (ResourceKey<CreativeModeTab> itemGroup : itemGroups) {
 				ItemGroupEvents.modifyEntriesEvent(itemGroup).register(entries -> entries.addAfter(parentBlock, item));
@@ -135,8 +139,8 @@ public record RegistryHelper(String modId) {
 		}
 
 		public Block registerBlockWood(Block block, String name, Block parentBlock, ResourceKey<CreativeModeTab>... itemGroups) {
-			Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(modId, name), block);
-			Item item = Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(modId, name),
+			Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.fromNamespaceAndPath(modId, name), block);
+			Item item = Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(modId, name),
 					new BlockItem(block, new Item.Properties()));
 			for (ResourceKey<CreativeModeTab> itemGroup : itemGroups) {
 				ItemGroupEvents.modifyEntriesEvent(itemGroup).register(entries -> entries.addBefore(parentBlock, item));
@@ -145,8 +149,8 @@ public record RegistryHelper(String modId) {
 		}
 
 		public Block registerBlock(Block block, String name, Map<ItemLike, ResourceKey<CreativeModeTab>> itemGroups) {
-			Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(modId, name), block);
-			Item item = Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(modId, name),
+			Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.fromNamespaceAndPath(modId, name), block);
+			Item item = Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(modId, name),
 					new BlockItem(block, new Item.Properties()));
 			itemGroups.forEach((block1, creativeModeTab) -> ItemGroupEvents.modifyEntriesEvent(creativeModeTab)
 					.register(entries -> entries.addAfter(block1, item)));
@@ -155,7 +159,7 @@ public record RegistryHelper(String modId) {
 
 		public Block registerBlockWithWallBlock(Block block, Block wallBlock, String name) {
 			register(BuiltInRegistries.BLOCK, name, block);
-			Item item = new StandingAndWallBlockItem(block, wallBlock, new Item.Properties(), Direction.DOWN);
+			Item item = new StandingAndWallBlockItem(block, wallBlock, Direction.DOWN, new Item.Properties());
 			register(BuiltInRegistries.ITEM, name, item);
 			ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.BUILDING_BLOCKS).register(entries -> entries.accept(item));
 			return block;
@@ -167,7 +171,7 @@ public record RegistryHelper(String modId) {
 		}
 
 		protected <T> T register(Registry<T> registry, String name, T object) {
-			return Registry.register(registry, new ResourceLocation(modId, name), object);
+			return Registry.register(registry, ResourceLocation.fromNamespaceAndPath(modId, name), object);
 		}
 	}
 
@@ -201,8 +205,11 @@ public record RegistryHelper(String modId) {
 		}
 
 		public Item registerSpawnEgg(String name, EntityType<? extends Mob> entity, int primaryColor, int secondaryColor) {
-			Item item = registerItem(name + "_spawn_egg",
-					new SpawnEggItem(entity, primaryColor, secondaryColor, new Item.Properties()));
+			Item item = registerItem(name + "_spawn_egg", new SpawnEggItem(entity, new Item.Properties()
+				.component(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(
+					List.of(), List.of(), List.of(), List.of(primaryColor, secondaryColor)
+				))
+			));
 			ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.SPAWN_EGGS).register(entries -> entries.accept(item));
 			SpawnEggItem.BY_ID.put(entity, (SpawnEggItem) item);
 			return item;
@@ -213,14 +220,14 @@ public record RegistryHelper(String modId) {
 		}
 
 		private <T> T register(Registry<T> registry, String name, T object) {
-			return Registry.register(registry, new ResourceLocation(modId, name), object);
+			return Registry.register(registry, ResourceLocation.fromNamespaceAndPath(modId, name), object);
 		}
 	}
 
 	public <T extends BlockEntity> BlockEntityType<T> registerBlockEntity(FabricBlockEntityTypeBuilder.Factory<T> blockEntityType, Class<? extends Block> block, String name) {
 		FabricBlockEntityTypeBuilder<T> builder = FabricBlockEntityTypeBuilder.create(blockEntityType,
 				collectBlocks(block));
-		return Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, new ResourceLocation(modId, name), builder.build());
+		return Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(modId, name), builder.build());
 	}
 
 	public <T extends BlockEntity> BlockEntityType<T> registerBlockEntity(FabricBlockEntityTypeBuilder<T> builder, String name) {
@@ -232,11 +239,11 @@ public record RegistryHelper(String modId) {
 	}
 
 	public <T extends Entity> EntityType<T> registerEntity(FabricEntityTypeBuilder<T> builder, String name) {
-		return (EntityType<T>) register(BuiltInRegistries.ENTITY_TYPE, name, builder.build());
+		return (EntityType<T>) register(BuiltInRegistries.ENTITY_TYPE, name, builder.build(ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(modId(), name))));
 	}
 
 	public SoundEvent createSoundEvent(String name) {
-		return register(BuiltInRegistries.SOUND_EVENT, name, SoundEvent.createVariableRangeEvent(new ResourceLocation(modId, name)));
+		return register(BuiltInRegistries.SOUND_EVENT, name, SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(modId, name)));
 	}
 
 	public SoundEvent registerSoundEvent(SoundEvent soundEvent, String name) {
@@ -244,7 +251,7 @@ public record RegistryHelper(String modId) {
 	}
 
 	private <T> T register(Registry<T> registry, String name, T object) {
-		return Registry.register(registry, new ResourceLocation(modId(), name), object);
+		return Registry.register(registry, ResourceLocation.fromNamespaceAndPath(modId(), name), object);
 	}
 
 }

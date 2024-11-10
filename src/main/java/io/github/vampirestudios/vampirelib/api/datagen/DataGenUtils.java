@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022-2024 OliviaTheVampire
+ * Copyright (c) 2024 OliviaTheVampire
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -17,23 +17,23 @@
 
 package io.github.vampirestudios.vampirelib.api.datagen;
 
-import static net.minecraft.data.models.BlockModelGenerators.createBooleanModelDispatch;
-import static net.minecraft.data.models.BlockModelGenerators.createSimpleBlock;
+import static net.minecraft.client.data.models.BlockModelGenerators.createBooleanModelDispatch;
+import static net.minecraft.client.data.models.BlockModelGenerators.createSimpleBlock;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.lang3.tuple.Triple;
 
-import net.minecraft.data.models.BlockModelGenerators;
-import net.minecraft.data.models.ItemModelGenerators;
-import net.minecraft.data.models.blockstates.MultiVariantGenerator;
-import net.minecraft.data.models.blockstates.PropertyDispatch;
-import net.minecraft.data.models.blockstates.Variant;
-import net.minecraft.data.models.blockstates.VariantProperties;
-import net.minecraft.data.models.model.ModelLocationUtils;
-import net.minecraft.data.models.model.ModelTemplates;
-import net.minecraft.data.models.model.TextureMapping;
-import net.minecraft.data.models.model.TextureSlot;
-import net.minecraft.data.models.model.TexturedModel;
+import net.minecraft.client.data.models.BlockModelGenerators;
+import net.minecraft.client.data.models.ItemModelGenerators;
+import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
+import net.minecraft.client.data.models.blockstates.PropertyDispatch;
+import net.minecraft.client.data.models.blockstates.Variant;
+import net.minecraft.client.data.models.blockstates.VariantProperties;
+import net.minecraft.client.data.models.model.ModelLocationUtils;
+import net.minecraft.client.data.models.model.ModelTemplates;
+import net.minecraft.client.data.models.model.TextureMapping;
+import net.minecraft.client.data.models.model.TextureSlot;
+import net.minecraft.client.data.models.model.TexturedModel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -53,14 +53,14 @@ public class DataGenUtils {
 		TextureMapping saplingMapping = TextureMapping.cross(ResourceLocationUtils.modId(path));
 		TextureMapping pottedSaplingMapping = TextureMapping.plant(ResourceLocationUtils.modId(path));
 
-		ResourceLocation sapling = BlockModelGenerators.TintState.NOT_TINTED.getCross()
+		ResourceLocation sapling = BlockModelGenerators.PlantType.NOT_TINTED.getCross()
 				.create(block, saplingMapping, generators.modelOutput);
 		generators.blockStateOutput.accept(createSimpleBlock(block, sapling));
 		ModelTemplates.FLAT_ITEM.create(ModelLocationUtils.getModelLocation(block.asItem()),
 				TextureMapping.layer0(ResourceLocationUtils.modId(path)),
 				generators.modelOutput);
 
-		ResourceLocation pottedSapling = BlockModelGenerators.TintState.NOT_TINTED.getCrossPot()
+		ResourceLocation pottedSapling = BlockModelGenerators.PlantType.NOT_TINTED.getCrossPot()
 				.create(pottedBlock, pottedSaplingMapping, generators.modelOutput);
 		generators.blockStateOutput.accept(createSimpleBlock(pottedBlock, pottedSapling));
 	}
@@ -69,7 +69,7 @@ public class DataGenUtils {
 		ModelTemplates.FLAT_ITEM.create(
 				ModelLocationUtils.getModelLocation(item),
 				TextureMapping.layer0(ResourceLocationUtils.modId(path)),
-				modelOutput.output
+				modelOutput.modelOutput
 		);
 	}
 
@@ -85,7 +85,7 @@ public class DataGenUtils {
 		ModelTemplates.FLAT_HANDHELD_ITEM.create(
 				ModelLocationUtils.getModelLocation(item),
 				TextureMapping.layer0(ResourceLocationUtils.modId(path)),
-				modelOutput.output
+				modelOutput.modelOutput
 		);
 	}
 
@@ -95,7 +95,7 @@ public class DataGenUtils {
 				brimstoneCoalOreTextureMapping,
 				blockStateModelGenerator.modelOutput);
 		blockStateModelGenerator.blockStateOutput.accept(createSimpleBlock(block, brimstoneCoalOreResourceLocation));
-		blockStateModelGenerator.delegateItemModel(block, ModelLocationUtils.getModelLocation(block));
+		blockStateModelGenerator.registerSimpleItemModel(block, ModelLocationUtils.getModelLocation(block));
 	}
 
 	public static void generateConnectedCubeModels(
@@ -110,7 +110,7 @@ public class DataGenUtils {
 				blockStateModelGenerator.modelOutput);
 		blockStateModelGenerator.blockStateOutput.accept(
 				createConnectedBlock(block, property, connectedResourceLocation, notConnectedResourceLocation));
-		blockStateModelGenerator.delegateItemModel(block, notConnectedResourceLocation);
+		blockStateModelGenerator.registerSimpleItemModel(block, notConnectedResourceLocation);
 	}
 
 	public static void generateConnectedTopBottomSideModels(
@@ -131,7 +131,7 @@ public class DataGenUtils {
 				blockStateModelGenerator.modelOutput);
 		blockStateModelGenerator.blockStateOutput.accept(
 				createConnectedBlock(block, property, connectedResourceLocation, notConnectedResourceLocation));
-		blockStateModelGenerator.delegateItemModel(block, notConnectedResourceLocation);
+		blockStateModelGenerator.registerSimpleItemModel(block, notConnectedResourceLocation);
 	}
 
 	public static void generateConnectedEndSideModels(
@@ -146,34 +146,34 @@ public class DataGenUtils {
 				blockStateModelGenerator.modelOutput);
 		ResourceLocation connectedResourceLocation = ModelTemplates.CUBE_COLUMN.create(block, connectedTextureMapping, blockStateModelGenerator.modelOutput);
 		blockStateModelGenerator.blockStateOutput.accept(createConnectedBlock(block, property, connectedResourceLocation, notConnectedResourceLocation));
-		blockStateModelGenerator.delegateItemModel(block, notConnectedResourceLocation);
+		blockStateModelGenerator.registerSimpleItemModel(block, notConnectedResourceLocation);
 	}
 
 	public static void generateSimpleColumnModels(BlockModelGenerators blockStateModelGenerator, ResourceLocation side, ResourceLocation end, Block block) {
 		TextureMapping textureMapping = new TextureMapping().put(TextureSlot.SIDE, side).put(TextureSlot.END, end);
 		ResourceLocation model = ModelTemplates.CUBE_COLUMN.create(block, textureMapping, blockStateModelGenerator.modelOutput);
 		blockStateModelGenerator.blockStateOutput.accept(createSimpleBlock(block, model));
-		blockStateModelGenerator.delegateItemModel(block, ModelLocationUtils.getModelLocation(block));
+		blockStateModelGenerator.registerSimpleItemModel(block, ModelLocationUtils.getModelLocation(block));
 	}
 
 	public static void generateSimpleColumnModels(BlockModelGenerators blockStateModelGenerator, TextureMapping textureMapping, Block block) {
 		ResourceLocation model = ModelTemplates.CUBE_COLUMN.create(block, textureMapping, blockStateModelGenerator.modelOutput);
 		blockStateModelGenerator.blockStateOutput.accept(createSimpleBlock(block, model));
-		blockStateModelGenerator.delegateItemModel(block, ModelLocationUtils.getModelLocation(block));
+		blockStateModelGenerator.registerSimpleItemModel(block, ModelLocationUtils.getModelLocation(block));
 	}
 
 	public static void generateSimpleTopBottomModels(BlockModelGenerators blockStateModelGenerator, ResourceLocation side, ResourceLocation top, ResourceLocation bottom, Block block) {
 		TextureMapping textureMapping = new TextureMapping().put(TextureSlot.SIDE, side).put(TextureSlot.TOP, top).put(TextureSlot.BOTTOM, bottom);
 		ResourceLocation model = ModelTemplates.CUBE_BOTTOM_TOP.create(block, textureMapping, blockStateModelGenerator.modelOutput);
 		blockStateModelGenerator.blockStateOutput.accept(createSimpleBlock(block, model));
-		blockStateModelGenerator.delegateItemModel(block, ModelLocationUtils.getModelLocation(block));
+		blockStateModelGenerator.registerSimpleItemModel(block, ModelLocationUtils.getModelLocation(block));
 	}
 
 	public static void createCarpet(BlockModelGenerators blockStateModelGenerator, Block block, ResourceLocation texture) {
 		blockStateModelGenerator.createTrivialBlock(block, TexturedModel.CARPET.updateTexture(
 				textureMapping -> textureMapping.put(TextureSlot.WOOL, texture)));
 		ResourceLocation resourceLocation2 = ModelLocationUtils.getModelLocation(block);
-		blockStateModelGenerator.delegateItemModel(block, resourceLocation2);
+		blockStateModelGenerator.registerSimpleItemModel(block, resourceLocation2);
 	}
 
 	public static void createCaveVines(Block vines, Block plant, BlockModelGenerators blockStateModelGenerator) {

@@ -1,7 +1,7 @@
 accessWidener v2 named
-transitive-accessible method net/minecraft/world/level/levelgen/feature/trunkplacers/TrunkPlacerType <init> (Lcom/mojang/serialization/Codec;)V
-transitive-accessible method net/minecraft/world/level/levelgen/feature/foliageplacers/FoliagePlacerType <init> (Lcom/mojang/serialization/Codec;)V
-transitive-accessible method net/minecraft/world/level/levelgen/feature/treedecorators/TreeDecoratorType <init> (Lcom/mojang/serialization/Codec;)V
+transitive-accessible method net/minecraft/world/level/levelgen/feature/trunkplacers/TrunkPlacerType <init> (Lcom/mojang/serialization/MapCodec;)V
+transitive-accessible method net/minecraft/world/level/levelgen/feature/foliageplacers/FoliagePlacerType <init> (Lcom/mojang/serialization/MapCodec;)V
+transitive-accessible method net/minecraft/world/level/levelgen/feature/treedecorators/TreeDecoratorType <init> (Lcom/mojang/serialization/MapCodec;)V
 transitive-accessible method net/minecraft/world/level/levelgen/feature/stateproviders/SimpleStateProvider <init> (Lnet/minecraft/world/level/block/state/BlockState;)V
 
 transitive-accessible method net/minecraft/world/entity/ai/village/poi/PoiType <init> (Ljava/util/Set;II)V
@@ -17,31 +17,19 @@ transitive-accessible field net/minecraft/data/tags/TagsProvider$TagAppender bui
 
 transitive-accessible method net/minecraft/data/BlockFamilies  familyBuilder (Lnet/minecraft/world/level/block/Block;)Lnet/minecraft/data/BlockFamily$Builder;
 
-transitive-accessible class net/minecraft/data/models/BlockModelGenerators$WoodProvider
-transitive-accessible class net/minecraft/data/models/BlockModelGenerators$BlockFamilyProvider
-transitive-accessible class net/minecraft/data/models/BlockModelGenerators$TintState
-transitive-accessible field net/minecraft/data/models/BlockModelGenerators  blockStateOutput    Ljava/util/function/Consumer;
-transitive-accessible field net/minecraft/data/models/BlockModelGenerators  modelOutput Ljava/util/function/BiConsumer;
+transitive-accessible class net/minecraft/client/data/models/BlockModelGenerators$WoodProvider
+transitive-accessible class net/minecraft/client/data/models/BlockModelGenerators$BlockFamilyProvider
+transitive-accessible class net/minecraft/client/data/models/BlockModelGenerators$PlantType
+transitive-accessible field net/minecraft/client/data/models/BlockModelGenerators  blockStateOutput    Ljava/util/function/Consumer;
+transitive-accessible field net/minecraft/client/data/models/BlockModelGenerators  modelOutput Ljava/util/function/BiConsumer;
 
-transitive-accessible method net/minecraft/data/models/model/TexturedModel	createDefault	(Ljava/util/function/Function;Lnet/minecraft/data/models/model/ModelTemplate;)Lnet/minecraft/data/models/model/TexturedModel$Provider;
+transitive-accessible method net/minecraft/client/data/models/model/TexturedModel createDefault (Ljava/util/function/Function;Lnet/minecraft/client/data/models/model/ModelTemplate;)Lnet/minecraft/client/data/models/model/TexturedModel$Provider;
 
 transitive-accessible field net/minecraft/client/resources/ClientPackSource VERSION_METADATA_SECTION Lnet/minecraft/server/packs/metadata/pack/PackMetadataSection;
 
-transitive-accessible class net/minecraft/world/item/crafting/Ingredient$ItemValue
-transitive-accessible class net/minecraft/world/item/crafting/Ingredient$TagValue
-transitive-accessible class net/minecraft/world/item/crafting/Ingredient$Value
-transitive-accessible class net/minecraft/world/item/crafting/Ingredient$ItemValue
-transitive-accessible class net/minecraft/world/item/crafting/Ingredient$TagValue
-transitive-accessible class net/minecraft/world/item/crafting/Ingredient$Value
-
-transitive-accessible method net/minecraft/world/item/crafting/Ingredient fromValues (Ljava/util/stream/Stream;)Lnet/minecraft/world/item/crafting/Ingredient;
-transitive-accessible method net/minecraft/world/item/crafting/Ingredient$TagValue <init> (Lnet/minecraft/tags/TagKey;)V
-
-accessible field net/minecraft/client/renderer/BlockEntityWithoutLevelRenderer blockEntityRenderDispatcher Lnet/minecraft/client/renderer/blockentity/BlockEntityRenderDispatcher;
 accessible class net/minecraft/world/level/block/entity/BlockEntityType$BlockEntitySupplier
-accessible field net/minecraft/client/renderer/block/model/BlockModel parent Lnet/minecraft/client/renderer/block/model/BlockModel;
+accessible field net/minecraft/client/renderer/block/model/BlockModel parent Lnet/minecraft/client/resources/model/UnbakedModel;
 accessible field net/minecraft/client/renderer/block/model/BlockModel parentLocation Lnet/minecraft/resources/ResourceLocation;
-accessible method net/minecraft/client/renderer/block/model/ItemOverrides <init> ()V
 accessible class net/minecraft/client/renderer/block/model/BlockElement$Deserializer
 accessible method net/minecraft/client/renderer/block/model/BlockElement$Deserializer <init> ()V
 accessible class net/minecraft/client/renderer/block/model/BlockElementFace$Deserializer
@@ -52,8 +40,6 @@ accessible class net/minecraft/client/renderer/block/model/ItemTransform$Deseria
 accessible method net/minecraft/client/renderer/block/model/ItemTransform$Deserializer <init> ()V
 accessible class net/minecraft/client/renderer/block/model/ItemTransforms$Deserializer
 accessible method net/minecraft/client/renderer/block/model/ItemTransforms$Deserializer <init> ()V
-accessible class net/minecraft/client/renderer/block/model/ItemOverride$Deserializer
-accessible method net/minecraft/client/renderer/block/model/ItemOverride$Deserializer <init> ()V
 
 transitive-accessible class net/minecraft/world/level/levelgen/SurfaceRules$Context
 transitive-accessible class net/minecraft/world/level/levelgen/SurfaceRules$Condition
@@ -66,7 +52,8 @@ transitive-accessible class net/minecraft/world/level/levelgen/SurfaceRules$Stat
 
 accessible method net/minecraft/server/level/ServerLevel getEntities ()Lnet/minecraft/world/level/entity/LevelEntityGetter;
 
-accessible field net/minecraft/data/models/ItemModelGenerators output Ljava/util/function/BiConsumer;
+accessible field net/minecraft/client/data/models/ItemModelGenerators modelOutput Ljava/util/function/BiConsumer;
+accessible field net/minecraft/client/data/models/ItemModelGenerators itemModelOutput Lnet/minecraft/client/data/models/ItemModelOutput;
 accessible field net/minecraft/client/Minecraft RESOURCE_RELOAD_INITIAL_TASK Ljava/util/concurrent/CompletableFuture;
 
 extendable class net/minecraft/client/model/geom/ModelPart
@@ -105,7 +92,7 @@ transitive-accessible field net/minecraft/client/model/geom/builders/MaterialDef
 transitive-accessible field net/minecraft/client/model/geom/builders/MaterialDefinition yTexSize I
 
 transitive-accessible class net/minecraft/client/renderer/RenderStateShard$TextureStateShard
-transitive-accessible field net/minecraft/client/renderer/RenderStateShard$TextureStateShard blur Z
+transitive-accessible field net/minecraft/client/renderer/RenderStateShard$TextureStateShard blur Lnet/minecraft/util/TriState;
 transitive-accessible field net/minecraft/client/renderer/RenderStateShard$TextureStateShard mipmap Z
 transitive-accessible field net/minecraft/client/renderer/RenderStateShard setupState Ljava/lang/Runnable;
 
@@ -118,22 +105,17 @@ transitive-accessible class net/minecraft/client/renderer/RenderType$CompositeRe
 
 transitive-accessible method net/minecraft/client/renderer/RenderType create (Ljava/lang/String;Lcom/mojang/blaze3d/vertex/VertexFormat;Lcom/mojang/blaze3d/vertex/VertexFormat$Mode;IZZLnet/minecraft/client/renderer/RenderType$CompositeState;)Lnet/minecraft/client/renderer/RenderType$CompositeRenderType;
 
-transitive-accessible field net/minecraft/client/renderer/block/model/BlockModel$GuiLight name Ljava/lang/String;
-
 transitive-accessible method net/minecraft/client/renderer/block/model/ItemModelGenerator processFrames (ILjava/lang/String;Lnet/minecraft/client/renderer/texture/SpriteContents;)Ljava/util/List;
 
 accessible class net/minecraft/client/renderer/FogRenderer$FogData
 
 accessible field net/minecraft/world/item/SpawnEggItem BY_ID Ljava/util/Map;
 
-accessible method net/minecraft/client/resources/model/SimpleBakedModel$Builder <init> (ZZZLnet/minecraft/client/renderer/block/model/ItemTransforms;Lnet/minecraft/client/renderer/block/model/ItemOverrides;)V
-
 accessible field net/minecraft/client/renderer/block/model/ItemTransform$Deserializer DEFAULT_ROTATION Lorg/joml/Vector3f;
 accessible field net/minecraft/client/renderer/block/model/ItemTransform$Deserializer DEFAULT_TRANSLATION Lorg/joml/Vector3f;
 accessible field net/minecraft/client/renderer/block/model/ItemTransform$Deserializer DEFAULT_SCALE Lorg/joml/Vector3f;
 
 accessible method net/minecraft/client/renderer/block/model/BlockElement uvsByFace (Lnet/minecraft/core/Direction;)[F
-accessible method net/minecraft/client/renderer/block/model/BlockModel bakeFace (Lnet/minecraft/client/renderer/block/model/BlockElement;Lnet/minecraft/client/renderer/block/model/BlockElementFace;Lnet/minecraft/client/renderer/texture/TextureAtlasSprite;Lnet/minecraft/core/Direction;Lnet/minecraft/client/resources/model/ModelState;Lnet/minecraft/resources/ResourceLocation;)Lnet/minecraft/client/renderer/block/model/BakedQuad;
 
 accessible field net/minecraft/world/level/block/FireBlock igniteOdds Lit/unimi/dsi/fastutil/objects/Object2IntMap;
 accessible field net/minecraft/world/level/block/FireBlock burnOdds Lit/unimi/dsi/fastutil/objects/Object2IntMap;
@@ -156,3 +138,21 @@ accessible method net/minecraft/world/level/block/state/properties/WoodType regi
 accessible    class    net/minecraft/world/level/levelgen/OreVeinifier$VeinType
 
 accessible class net/minecraft/server/packs/FilePackResources
+
+accessible method net/minecraft/data/recipes/RecipeProvider planksFromLogs (Lnet/minecraft/world/level/ItemLike;Lnet/minecraft/tags/TagKey;I)V
+accessible method net/minecraft/data/recipes/RecipeProvider mosaicBuilder (Lnet/minecraft/data/recipes/RecipeCategory;Lnet/minecraft/world/level/ItemLike;Lnet/minecraft/world/level/ItemLike;)V
+accessible method net/minecraft/data/recipes/RecipeProvider woodFromLogs (Lnet/minecraft/world/level/ItemLike;Lnet/minecraft/world/level/ItemLike;)V
+accessible method net/minecraft/data/recipes/RecipeProvider trapdoorBuilder (Lnet/minecraft/world/level/ItemLike;Lnet/minecraft/world/item/crafting/Ingredient;)Lnet/minecraft/data/recipes/RecipeBuilder;
+accessible method net/minecraft/data/recipes/RecipeProvider doorBuilder (Lnet/minecraft/world/level/ItemLike;Lnet/minecraft/world/item/crafting/Ingredient;)Lnet/minecraft/data/recipes/RecipeBuilder;
+accessible method net/minecraft/data/recipes/RecipeProvider fenceBuilder (Lnet/minecraft/world/level/ItemLike;Lnet/minecraft/world/item/crafting/Ingredient;)Lnet/minecraft/data/recipes/RecipeBuilder;
+accessible method net/minecraft/data/recipes/RecipeProvider fenceGateBuilder (Lnet/minecraft/world/level/ItemLike;Lnet/minecraft/world/item/crafting/Ingredient;)Lnet/minecraft/data/recipes/RecipeBuilder;
+accessible method net/minecraft/data/recipes/RecipeProvider slab (Lnet/minecraft/data/recipes/RecipeCategory;Lnet/minecraft/world/level/ItemLike;Lnet/minecraft/world/level/ItemLike;)V
+accessible method net/minecraft/data/recipes/RecipeProvider stairBuilder (Lnet/minecraft/world/level/ItemLike;Lnet/minecraft/world/item/crafting/Ingredient;)Lnet/minecraft/data/recipes/RecipeBuilder;
+accessible method net/minecraft/data/recipes/RecipeProvider buttonBuilder (Lnet/minecraft/world/level/ItemLike;Lnet/minecraft/world/item/crafting/Ingredient;)Lnet/minecraft/data/recipes/RecipeBuilder;
+accessible method net/minecraft/data/recipes/RecipeProvider pressurePlate (Lnet/minecraft/world/level/ItemLike;Lnet/minecraft/world/level/ItemLike;)V
+accessible method net/minecraft/data/recipes/RecipeProvider woodenBoat (Lnet/minecraft/world/level/ItemLike;Lnet/minecraft/world/level/ItemLike;)V
+accessible method net/minecraft/data/recipes/RecipeProvider chestBoat (Lnet/minecraft/world/level/ItemLike;Lnet/minecraft/world/level/ItemLike;)V
+accessible method net/minecraft/data/recipes/RecipeProvider signBuilder (Lnet/minecraft/world/level/ItemLike;Lnet/minecraft/world/item/crafting/Ingredient;)Lnet/minecraft/data/recipes/RecipeBuilder;
+accessible method net/minecraft/data/recipes/RecipeProvider hangingSign (Lnet/minecraft/world/level/ItemLike;Lnet/minecraft/world/level/ItemLike;)V
+accessible method net/minecraft/data/recipes/RecipeProvider shaped (Lnet/minecraft/data/recipes/RecipeCategory;Lnet/minecraft/world/level/ItemLike;)Lnet/minecraft/data/recipes/ShapedRecipeBuilder;
+accessible method net/minecraft/data/recipes/RecipeProvider has (Lnet/minecraft/world/level/ItemLike;)Lnet/minecraft/advancements/Criterion;

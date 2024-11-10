@@ -34,7 +34,7 @@ public abstract class StructureBlockBlockEntityMixin extends BlockEntity {
 		super(blockEntityType, blockPos, blockState);
 	}
 
-	@ModifyConstant(method = "load", constant = @Constant(intValue = 48))
+	@ModifyConstant(method = "loadAdditional", constant = @Constant(intValue = 48))
 	public int readNbt(int old) {
 		return 4096;
 	}

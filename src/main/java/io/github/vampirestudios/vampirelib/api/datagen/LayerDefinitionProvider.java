@@ -34,8 +34,8 @@ public class LayerDefinitionProvider extends JsonCodecProvider<LayerDefinition> 
 
 	@Override
 	protected void configure(BiConsumer<ResourceLocation, LayerDefinition> provider) {
-		provider.accept(new ResourceLocation("sniffer"), SnifferModel.createBodyLayer());
-		provider.accept(new ResourceLocation("bat"), BatModel.createBodyLayer());
+		provider.accept(ResourceLocation.withDefaultNamespace("sniffer"), SnifferModel.createBodyLayer());
+		provider.accept(ResourceLocation.withDefaultNamespace("bat"), BatModel.createBodyLayer());
 	}
 
 	@Override

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023-2024 OliviaTheVampire
+ * Copyright (c) 2024 OliviaTheVampire
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -35,6 +35,7 @@ import net.fabricmc.api.EnvironmentInterfaces;
 import net.fabricmc.api.ModInitializer;
 
 import io.github.vampirestudios.vampirelib.modules.FeatureManager;
+import io.github.vampirestudios.vampirelib.utils.ResourceLocationUtils;
 
 @EnvironmentInterfaces(
 		@EnvironmentInterface(value = EnvType.CLIENT, itf = ClientModInitializer.class)
@@ -107,6 +108,7 @@ public abstract class BasicModClass implements ModInitializer, ClientModInitiali
 		if (!client) {
 			featureManager = registerFeatureManager();
 		}
+		ResourceLocationUtils.setModInstance(this);
 	}
 
 	/**
@@ -116,7 +118,7 @@ public abstract class BasicModClass implements ModInitializer, ClientModInitiali
 	 * @return a ${@link FeatureManager} with the mod id of this mod
 	 */
 	private FeatureManager registerFeatureManager() {
-		ResourceLocation id = new ResourceLocation(this.modId, "feature_manager");
+		ResourceLocation id = ResourceLocation.fromNamespaceAndPath(modId, "feature_manager");
 		if (FEATURE_MANAGERS.containsKey(id)) {
 			return FEATURE_MANAGERS.get(id);
 		} else {
@@ -134,7 +136,7 @@ public abstract class BasicModClass implements ModInitializer, ClientModInitiali
 	 * @return a new ${@link ResourceLocation} with the specified and path and the mod id of the mod
 	 */
 	public ResourceLocation identifier(String path) {
-		return new ResourceLocation(this.modId(), path);
+		return ResourceLocationUtils.modId(path);
 	}
 
 	/**
@@ -146,7 +148,7 @@ public abstract class BasicModClass implements ModInitializer, ClientModInitiali
 	 * @return a new ${@link ResourceLocation} with the specified namespace and path
 	 */
 	public ResourceLocation identifier(String namespace, String path) {
-		return new ResourceLocation(namespace, path);
+		return ResourceLocation.fromNamespaceAndPath(namespace, path);
 	}
 
 	/**

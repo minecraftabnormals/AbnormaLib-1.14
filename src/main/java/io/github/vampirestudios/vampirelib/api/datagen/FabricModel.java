@@ -22,8 +22,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import net.minecraft.data.models.model.ModelTemplate;
-import net.minecraft.data.models.model.TextureSlot;
+import net.minecraft.client.data.models.model.ModelTemplate;
+import net.minecraft.client.data.models.model.TextureSlot;
 import net.minecraft.resources.ResourceLocation;
 
 import io.github.vampirestudios.vampirelib.api.datagen.builder.ItemModelBuilder;

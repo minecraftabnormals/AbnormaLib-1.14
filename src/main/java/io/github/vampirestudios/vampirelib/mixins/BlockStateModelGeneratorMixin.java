@@ -19,20 +19,19 @@ package io.github.vampirestudios.vampirelib.mixins;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
-import net.minecraft.data.models.BlockModelGenerators;
-import net.minecraft.data.models.blockstates.BlockStateGenerator;
-import net.minecraft.data.models.blockstates.MultiVariantGenerator;
-import net.minecraft.data.models.blockstates.Variant;
-import net.minecraft.data.models.blockstates.VariantProperties;
-import net.minecraft.data.models.model.ModelLocationUtils;
+import net.minecraft.client.data.models.BlockModelGenerators;
+import net.minecraft.client.data.models.blockstates.BlockStateGenerator;
+import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
+import net.minecraft.client.data.models.blockstates.Variant;
+import net.minecraft.client.data.models.blockstates.VariantProperties;
+import net.minecraft.client.data.models.model.ModelInstance;
+import net.minecraft.client.data.models.model.ModelLocationUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 
@@ -43,7 +42,7 @@ import io.github.vampirestudios.vampirelib.api.datagen.builder.ModelBuilder;
 public abstract class BlockStateModelGeneratorMixin implements FabricBlockStateModelGenerator {
 	@Shadow
 	@Final
-	public BiConsumer<ResourceLocation, Supplier<JsonElement>> modelOutput;
+	public BiConsumer<ResourceLocation, ModelInstance> modelOutput;
 
 	@Shadow
 	@Final

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022-2024 OliviaTheVampire
+ * Copyright (c) 2024 OliviaTheVampire
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -79,7 +79,7 @@ public abstract class LegacyFabricSoundProvider implements DataProvider {
 	private Path getLangFilePath() {
 		return dataOutput
 				.createPathProvider(PackOutput.Target.RESOURCE_PACK, "")
-				.json(new ResourceLocation(dataOutput.getModId(), "sounds.json"));
+				.json(ResourceLocation.fromNamespaceAndPath(dataOutput.getModId(), "sounds.json"));
 	}
 
 	@Override

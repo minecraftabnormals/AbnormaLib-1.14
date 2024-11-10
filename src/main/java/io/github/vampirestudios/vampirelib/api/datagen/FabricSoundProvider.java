@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023-2024 OliviaTheVampire
+ * Copyright (c) 2024 OliviaTheVampire
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -72,7 +72,7 @@ public abstract class FabricSoundProvider implements DataProvider {
 			List<ResourceLocation> keys = Arrays.stream(entries).map(SoundBuilder::getName).toList();
 
 			if (!keys.stream().filter(i -> Collections.frequency(keys, i) > 1).toList().isEmpty()) {
-				throw new RuntimeException("Entries for sound event " + sound.getLocation() + " contain duplicate sound names. Event will be omitted.");
+				throw new RuntimeException("Entries for sound event " + sound.location() + " contain duplicate sound names. Event will be omitted.");
 			}
 
 			JsonObject soundEventData = new JsonObject();
@@ -89,7 +89,7 @@ public abstract class FabricSoundProvider implements DataProvider {
 				soundEventData.addProperty("subtitle", subtitle);
 			}
 
-			soundEvents.put(sound.getLocation().getPath(), soundEventData);
+			soundEvents.put(sound.location().getPath(), soundEventData);
 		}));
 
 		JsonObject soundsJson = new JsonObject();
@@ -100,7 +100,7 @@ public abstract class FabricSoundProvider implements DataProvider {
 
 		Path soundsPath = dataOutput
 				.createPathProvider(PackOutput.Target.RESOURCE_PACK, ".")
-				.json(new ResourceLocation(dataOutput.getModId(), "sounds"));
+				.json(ResourceLocation.fromNamespaceAndPath(dataOutput.getModId(), "sounds"));
 		return DataProvider.saveStable(cache, soundsJson, soundsPath.normalize());
 	}
 
